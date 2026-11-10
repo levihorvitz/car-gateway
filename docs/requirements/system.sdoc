@@ -1,0 +1,413 @@
+[DOCUMENT]
+TITLE: System Requirements - Car Central Computer
+
+[GRAMMAR]
+ELEMENTS:
+- TAG: TEXT
+  FIELDS:
+  - TITLE: UID
+    TYPE: String
+    REQUIRED: False
+  - TITLE: STATEMENT
+    TYPE: String
+    REQUIRED: True
+- TAG: REQUIREMENT
+  FIELDS:
+  - TITLE: UID
+    TYPE: String
+    REQUIRED: True
+  - TITLE: STATUS
+    TYPE: SingleChoice(Draft, Reviewed, Approved)
+    REQUIRED: True
+  - TITLE: TAGS
+    TYPE: Tag
+    REQUIRED: False
+  - TITLE: TITLE
+    TYPE: String
+    REQUIRED: True
+  - TITLE: STATEMENT
+    TYPE: String
+    REQUIRED: True
+  - TITLE: RATIONALE
+    TYPE: String
+    REQUIRED: False
+  - TITLE: VERIFICATION
+    TYPE: MultipleChoice(Test, Demonstration, Inspection, Analysis)
+    REQUIRED: True
+  RELATIONS:
+  - TYPE: Parent
+  - TYPE: File
+
+[TEXT]
+STATEMENT: >>>
+This document states what the car central computer must do, seen from outside as a black box.
+Software requirements for each component are derived from it and link back to it with a Parent relation.
+
+The system is the central computer, its dashboard, and the Raspberry Pi it runs on in the car.
+The vehicle units, the driver, diagnostic tools, the GPS receiver and the real vehicle are outside it.
+The simulated car is a test environment with its own requirements.
+
+Status: every requirement starts as Draft, becomes Reviewed after both developers have reviewed it,
+and Approved when both agree. A change to an approved requirement goes through a pull request with a reason.
+IDs never change and are never reused.
+<<<
+
+[REQUIREMENT]
+UID: SYS_MON_001
+STATUS: Draft
+TAGS: monitoring
+TITLE: Monitored units
+STATEMENT: The system shall monitor the status of the engine, brakes and ABS, battery, doors, lighting and air-conditioning units.
+RATIONALE: These are the units in scope.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_MON_002
+STATUS: Draft
+TAGS: monitoring
+TITLE: Silent unit detection
+STATEMENT: The system shall detect that a vehicle unit has stopped reporting within 100 ms of its last valid status message.
+RATIONALE: Units report every 20 ms; 100 ms tolerates up to four lost messages before raising a fault.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_MON_003
+STATUS: Draft
+TAGS: monitoring
+TITLE: Bad message detection
+STATEMENT: The system shall detect a lost, repeated or corrupted message from any vehicle unit.
+RATIONALE: Bad data must never be acted on as if it were valid.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_MON_004
+STATUS: Draft
+TAGS: monitoring
+TITLE: Ignoring bad messages
+STATEMENT: The system shall ignore the content of a message it has detected as repeated or corrupted.
+RATIONALE: Acting on a corrupted value could trigger a wrong reaction.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_STATE_001
+STATUS: Draft
+TAGS: vehicle_state
+TITLE: Vehicle state
+STATEMENT: The system shall maintain one vehicle state, which is Normal, Limited or Safe.
+RATIONALE: One state lets every unit adapt in the same way.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_STATE_002
+STATUS: Draft
+TAGS: vehicle_state
+TITLE: Entering Limited
+STATEMENT: The system shall enter the Limited state within 40 ms of a Degraded-severity fault being confirmed.
+RATIONALE: Two 20 ms cycles: one to confirm, one to react.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_STATE_003
+STATUS: Draft
+TAGS: vehicle_state
+TITLE: Entering Safe
+STATEMENT: The system shall enter the Safe state within 40 ms of a Critical-severity fault being confirmed.
+RATIONALE: Same timing as Limited; a critical fault must not wait longer.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_STATE_004
+STATUS: Draft
+TAGS: vehicle_state
+TITLE: Leaving Limited
+STATEMENT: The system shall return from the Limited state to the Normal state only when no Degraded-severity fault is active.
+RATIONALE: Prevents leaving limp mode while the cause remains.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_STATE_005
+STATUS: Draft
+TAGS: vehicle_state
+TITLE: Staying in Safe
+STATEMENT: The system shall remain in the Safe state while any Critical-severity fault is active.
+RATIONALE: Critical faults latch (SYS_FAULT_005), so Safe ends only on restart or deliberate clearing.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_LIGHT_001
+STATUS: Draft
+TAGS: vehicle_state
+TITLE: Brake lights on
+STATEMENT: The system shall turn on the brake lights within 40 ms of the brake pedal being pressed.
+RATIONALE: A driver behind needs the earliest possible warning.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_LIGHT_002
+STATUS: Draft
+TAGS: vehicle_state
+TITLE: Brake lights off
+STATEMENT: The system shall turn off the brake lights within 40 ms of the brake pedal being released.
+RATIONALE: Lights left on after braking mislead the driver behind.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_FAULT_001
+STATUS: Draft
+TAGS: faults
+TITLE: Fault severity
+STATEMENT: The system shall classify every fault as Info, Warning, Degraded or Critical.
+RATIONALE: The severity decides the reaction.
+VERIFICATION: Inspection
+
+[REQUIREMENT]
+UID: SYS_FAULT_002
+STATUS: Draft
+TAGS: faults
+TITLE: Fault confirmation
+STATEMENT: The system shall confirm a fault only after its condition has persisted for at least 60 ms.
+RATIONALE: Three cycles filter out sensor noise without delaying real faults much.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_FAULT_003
+STATUS: Draft
+TAGS: faults
+TITLE: Fault clearing
+STATEMENT: The system shall clear a non-critical fault only after its condition has been absent for at least 1 s.
+RATIONALE: A longer healing time than confirmation time prevents a fault from flickering on and off.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_FAULT_004
+STATUS: Draft
+TAGS: faults
+TITLE: Fault storage
+STATEMENT: The system shall store each confirmed fault as an OBD-II diagnostic trouble code with the time it was confirmed.
+RATIONALE: Codes from the system and from the real car appear in one format.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_FAULT_005
+STATUS: Draft
+TAGS: faults
+TITLE: Critical fault latching
+STATEMENT: The system shall keep a Critical-severity fault active until the system restarts or a diagnostic tool clears it.
+RATIONALE: A critical fault must be seen and handled, even if its condition passes.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_DIAG_001
+STATUS: Draft
+TAGS: faults
+TITLE: Reading fault codes
+STATEMENT: The system shall provide all stored diagnostic trouble codes to a diagnostic tool on request.
+RATIONALE: This is how a garage reads the faults.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_DIAG_002
+STATUS: Draft
+TAGS: faults
+TITLE: Clearing fault codes
+STATEMENT: The system shall clear stored diagnostic trouble codes when a diagnostic tool requests it.
+RATIONALE: Faults that were repaired must be removable.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_DIAG_003
+STATUS: Draft
+TAGS: faults
+TITLE: Initiated self-test
+STATEMENT: The system shall run a self-test of a vehicle unit when a diagnostic tool requests it, and report the result within 1 s.
+RATIONALE: Initiated built-in test, as a garage would run.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_DISP_001
+STATUS: Draft
+TAGS: display
+TITLE: Live values
+STATEMENT: The dashboard shall show vehicle speed, engine speed, engine temperature and battery voltage, updated at least 10 times per second.
+RATIONALE: 10 updates per second looks smooth to the eye.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_DISP_002
+STATUS: Draft
+TAGS: display
+TITLE: Amber warning lamp
+STATEMENT: The dashboard shall show an amber warning lamp within 100 ms of a Warning- or Degraded-severity fault being confirmed.
+RATIONALE: The driver learns of a problem almost at once.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_DISP_003
+STATUS: Draft
+TAGS: display
+TITLE: Red warning lamp and alert
+STATEMENT: The dashboard shall show a red warning lamp and sound an alert within 100 ms of a Critical-severity fault being confirmed.
+RATIONALE: A critical fault needs the driver's attention at once.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_DISP_004
+STATUS: Draft
+TAGS: display
+TITLE: Active fault list
+STATEMENT: The dashboard shall show the list of active faults, each with its diagnostic trouble code and a short description.
+RATIONALE: The driver or a mechanic can see what is wrong.
+VERIFICATION: Demonstration
+
+[REQUIREMENT]
+UID: SYS_DISP_005
+STATUS: Draft
+TAGS: display
+TITLE: Phone browser access
+STATEMENT: The web dashboard shall open in a phone's web browser without installing any software.
+RATIONALE: The phone in the car mount is the display.
+VERIFICATION: Demonstration
+
+[REQUIREMENT]
+UID: SYS_DISP_006
+STATUS: Draft
+TAGS: display
+TITLE: Operation without a dashboard
+STATEMENT: The system shall continue to operate when no dashboard is connected.
+RATIONALE: The display must never be a single point of failure.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_BOOT_001
+STATUS: Draft
+TAGS: startup
+TITLE: Power-on self-test
+STATEMENT: The system shall run a power-on self-test of each vehicle unit and of the dashboard warning lamps before entering normal operation.
+RATIONALE: Faults present at start must be found before driving.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_BOOT_002
+STATUS: Draft
+TAGS: startup
+TITLE: Startup time
+STATEMENT: The system shall reach normal operation within 60 s of power being applied.
+RATIONALE: Covers the Raspberry Pi boot time with margin.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_ROB_001
+STATUS: Draft
+TAGS: startup
+TITLE: Recovery from a hang
+STATEMENT: The system shall restart automatically within 30 s if its software stops responding.
+RATIONALE: Nobody is at the Pi in the car to restart it.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_ROB_002
+STATUS: Draft
+TAGS: startup
+TITLE: Fault code persistence
+STATEMENT: The system shall preserve stored diagnostic trouble codes across restarts and power loss.
+RATIONALE: A fault must not disappear because the car was switched off.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_TIME_001
+STATUS: Draft
+TAGS: time_location
+TITLE: Event timestamps
+STATEMENT: The system shall timestamp every logged event within 1 ms of GPS time while it has a GPS fix.
+RATIONALE: Events from different units can be ordered and compared.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_TIME_002
+STATUS: Draft
+TAGS: time_location
+TITLE: Operation without GPS
+STATEMENT: The system shall continue to operate without a GPS fix, and mark timestamps taken without one as unsynchronised.
+RATIONALE: Losing GPS in a tunnel must not stop the system.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_LOC_001
+STATUS: Draft
+TAGS: time_location
+TITLE: Position logging
+STATEMENT: The system shall record the vehicle's position at least once per second during a drive.
+RATIONALE: Enough points to draw the route of a drive.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_LOC_002
+STATUS: Draft
+TAGS: time_location
+TITLE: Speed comparison
+STATEMENT: The system shall report, for each drive, the difference between the speed measured by GPS and the speed reported by the vehicle.
+RATIONALE: Shows how accurate the car's speedometer is.
+VERIFICATION: Demonstration
+
+[REQUIREMENT]
+UID: SYS_VEH_001
+STATUS: Draft
+TAGS: real_vehicle
+TITLE: Reading vehicle values
+STATEMENT: The system shall read vehicle speed, engine speed, engine coolant temperature and control-module voltage from the real vehicle using standard OBD-II requests.
+RATIONALE: These standard values are available on the 2015 Peugeot 208.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_VEH_002
+STATUS: Draft
+TAGS: real_vehicle
+TITLE: Reading vehicle fault codes
+STATEMENT: The system shall read the diagnostic trouble codes stored in the real vehicle using standard OBD-II requests.
+RATIONALE: The car's own codes appear next to the system's.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_VEH_003
+STATUS: Draft
+TAGS: real_vehicle
+TITLE: Gear estimation
+STATEMENT: The system shall estimate the engaged gear from the ratio of vehicle speed to engine speed, and be correct in at least 95% of samples taken at steady speed.
+RATIONALE: The car is manual and no unit reports the gear.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_VEH_004
+STATUS: Draft
+TAGS: real_vehicle
+TITLE: Drive logging
+STATEMENT: The system shall log each drive with its start time, end time, route and the values read from the vehicle.
+RATIONALE: Drives can be reviewed later and replayed as test scenarios.
+VERIFICATION: Demonstration
+
+[REQUIREMENT]
+UID: SYS_SAFE_001
+STATUS: Draft
+TAGS: safety
+TITLE: Read-only vehicle bus
+STATEMENT: The system shall not transmit any frame on the real vehicle's bus other than standard OBD-II diagnostic requests.
+RATIONALE: Any other frame could affect the car's own control units.
+VERIFICATION: Test, Inspection
+
+[REQUIREMENT]
+UID: SYS_SAFE_002
+STATUS: Draft
+TAGS: safety
+TITLE: Request rate limit
+STATEMENT: The system shall send no more than 20 OBD-II requests per second to the real vehicle.
+RATIONALE: Keeps the load on the car's bus low; 20 requests cover four values at 5 Hz.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SYS_SAFE_003
+STATUS: Draft
+TAGS: safety
+TITLE: No driver input while moving
+STATEMENT: The dashboard shall not require any input from the driver while the vehicle is moving.
+RATIONALE: The driver's attention stays on the road.
+VERIFICATION: Inspection
