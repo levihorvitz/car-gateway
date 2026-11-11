@@ -1,0 +1,31 @@
+name: Requirements
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  requirements:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      # Pin the version once the first local run succeeds (pipx list shows it).
+      - name: Install StrictDoc
+        run: pip install strictdoc
+
+      # Fails the build if any .sdoc file has a syntax error,
+      # a duplicate UID or a relation to a UID that does not exist.
+      - name: Export requirements
+        run: strictdoc export . --output-dir build/strictdoc
+
+      - name: Upload requirements site
+        uses: actions/upload-artifact@v4
+        with:
+          name: requirements-html
+          path: build/strictdoc
