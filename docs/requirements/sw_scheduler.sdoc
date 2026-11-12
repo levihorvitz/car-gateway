@@ -1,0 +1,189 @@
+[DOCUMENT]
+TITLE: Software Requirements - Cyclic Scheduler
+
+[GRAMMAR]
+ELEMENTS:
+- TAG: TEXT
+  FIELDS:
+  - TITLE: UID
+    TYPE: String
+    REQUIRED: False
+  - TITLE: STATEMENT
+    TYPE: String
+    REQUIRED: True
+- TAG: REQUIREMENT
+  FIELDS:
+  - TITLE: UID
+    TYPE: String
+    REQUIRED: True
+  - TITLE: STATUS
+    TYPE: SingleChoice(Draft, Reviewed, Approved)
+    REQUIRED: True
+  - TITLE: TAGS
+    TYPE: Tag
+    REQUIRED: False
+  - TITLE: TITLE
+    TYPE: String
+    REQUIRED: True
+  - TITLE: STATEMENT
+    TYPE: String
+    REQUIRED: True
+  - TITLE: RATIONALE
+    TYPE: String
+    REQUIRED: False
+  - TITLE: VERIFICATION
+    TYPE: MultipleChoice(Test, Demonstration, Inspection, Analysis)
+    REQUIRED: True
+  RELATIONS:
+  - TYPE: Parent
+  - TYPE: File
+
+[TEXT]
+STATEMENT: >>>
+This document states what the cyclic scheduler must do. The scheduler runs every task of the
+central computer at a fixed rate, in a fixed order, and reports its own timing.
+
+Each requirement links to the system requirements it serves with a Parent relation.
+Requirements tagged "derived" have no system-level parent: they come from design decisions
+rather than from a system requirement, and their rationale explains why they exist.
+<<<
+
+[REQUIREMENT]
+UID: SW_SCHED_001
+STATUS: Draft
+TAGS: scheduler
+TITLE: Cycle period
+STATEMENT: The scheduler shall start a new cycle every 20 ms.
+RATIONALE: Reactions within 40 ms need at most two cycles, and fault confirmation within 60 ms needs three.
+VERIFICATION: Test
+RELATIONS:
+- TYPE: Parent
+  VALUE: SYS_LIGHT_001
+- TYPE: Parent
+  VALUE: SYS_LIGHT_002
+- TYPE: Parent
+  VALUE: SYS_STATE_002
+- TYPE: Parent
+  VALUE: SYS_STATE_003
+- TYPE: Parent
+  VALUE: SYS_FAULT_002
+
+[REQUIREMENT]
+UID: SW_SCHED_002
+STATUS: Draft
+TAGS: scheduler
+TITLE: Execution order
+STATEMENT: The scheduler shall execute every registered task exactly once per cycle, in the order in which the tasks were registered.
+RATIONALE: Reporting tasks run before reacting tasks, so a reaction happens in the same cycle as its cause.
+VERIFICATION: Test
+RELATIONS:
+- TYPE: Parent
+  VALUE: SYS_LIGHT_001
+- TYPE: Parent
+  VALUE: SYS_STATE_002
+- TYPE: Parent
+  VALUE: SYS_STATE_003
+
+[REQUIREMENT]
+UID: SW_SCHED_003
+STATUS: Draft
+TAGS: scheduler
+TITLE: Start accuracy
+STATEMENT: On the Raspberry Pi, the scheduler shall start each cycle no later than 1 ms after its planned start time.
+RATIONALE: A late start eats into the 40 ms reaction budget; 1 ms keeps the loss small. The limit applies to the target platform, not to development machines.
+VERIFICATION: Test
+RELATIONS:
+- TYPE: Parent
+  VALUE: SYS_LIGHT_001
+- TYPE: Parent
+  VALUE: SYS_STATE_003
+
+[REQUIREMENT]
+UID: SW_SCHED_004
+STATUS: Draft
+TAGS: scheduler
+TITLE: No drift
+STATEMENT: The scheduler shall plan the start of cycle N at exactly N times 20 ms after the planned start of cycle 0.
+RATIONALE: Planning each start from the previous actual start lets small delays add up, so the rate would slowly drift.
+VERIFICATION: Test
+RELATIONS:
+- TYPE: Parent
+  VALUE: SYS_MON_002
+- TYPE: Parent
+  VALUE: SYS_FAULT_002
+
+[REQUIREMENT]
+UID: SW_SCHED_005
+STATUS: Draft
+TAGS: scheduler
+TITLE: Overrun detection
+STATEMENT: The scheduler shall count a cycle as an overrun when its tasks are still running at the planned start of the next cycle.
+RATIONALE: An overrun means a reaction may be late; it must be visible, never silent.
+VERIFICATION: Test
+RELATIONS:
+- TYPE: Parent
+  VALUE: SYS_LIGHT_001
+- TYPE: Parent
+  VALUE: SYS_STATE_003
+
+[REQUIREMENT]
+UID: SW_SCHED_006
+STATUS: Draft
+TAGS: scheduler
+TITLE: Behaviour after an overrun
+STATEMENT: After an overrun, the scheduler shall start the next cycle at the earliest planned start time that has not yet passed, without running the missed cycles.
+RATIONALE: Running missed cycles back to back would delay every following cycle and starve the I/O threads; skipping keeps the system on its fixed timeline.
+VERIFICATION: Test
+RELATIONS:
+- TYPE: Parent
+  VALUE: SYS_LIGHT_001
+- TYPE: Parent
+  VALUE: SYS_STATE_003
+
+[REQUIREMENT]
+UID: SW_SCHED_007
+STATUS: Draft
+TAGS: scheduler, derived
+TITLE: Timing metrics
+STATEMENT: The scheduler shall provide, counted since it started, the number of cycles, the number of overruns, the maximum start delay and the maximum cycle execution time.
+RATIONALE: Derived. These values are needed to verify SW_SCHED_003 and SW_SCHED_005 on the target, and to show timing on the dashboard.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SW_SCHED_008
+STATUS: Draft
+TAGS: scheduler, derived
+TITLE: Task registration
+STATEMENT: The scheduler shall accept the registration of tasks only before it is started, up to a maximum of 16 tasks.
+RATIONALE: Derived. A fixed-size task table avoids memory allocation at run time; 16 covers the nine planned managers with room to grow.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SW_SCHED_009
+STATUS: Draft
+TAGS: scheduler, derived
+TITLE: No dynamic allocation
+STATEMENT: The scheduler shall not allocate memory dynamically after it has started.
+RATIONALE: Derived from the project coding rule. Allocation at run time can take unbounded time or fail, which would break the cycle timing.
+VERIFICATION: Test, Inspection
+
+[REQUIREMENT]
+UID: SW_SCHED_010
+STATUS: Draft
+TAGS: scheduler, derived
+TITLE: Stopping
+STATEMENT: When a stop is requested, the scheduler shall finish the current cycle and then stop without starting another cycle.
+RATIONALE: Derived. Stopping in the middle of a cycle could leave units in a half-updated state.
+VERIFICATION: Test
+
+[REQUIREMENT]
+UID: SW_SCHED_011
+STATUS: Draft
+TAGS: scheduler
+TITLE: Liveness signal
+STATEMENT: The scheduler shall signal that it is alive once per completed cycle.
+RATIONALE: The watchdog restarts the system when these signals stop, which is how a hang is recovered from.
+VERIFICATION: Test
+RELATIONS:
+- TYPE: Parent
+  VALUE: SYS_ROB_001
