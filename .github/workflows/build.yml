@@ -1,0 +1,43 @@
+name: Build and test
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build:
+    name: build (${{ matrix.name }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: release
+            build_type: Release
+            sanitizer: ""
+          - name: asan-ubsan
+            build_type: Debug
+            sanitizer: "address,undefined"
+          - name: tsan
+            build_type: Debug
+            sanitizer: "thread"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Allow ThreadSanitizer on this kernel
+        if: matrix.sanitizer == 'thread'
+        run: sudo sysctl vm.mmap_rnd_bits=28
+
+      - name: Configure
+        run: >
+          cmake -S . -B build
+          -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
+          -DGATEWAY_WERROR=ON
+          -DGATEWAY_SANITIZER="${{ matrix.sanitizer }}"
+
+      - name: Build
+        run: cmake --build build -j
+
+      - name: Test
+        run: ctest --test-dir build --output-on-failure

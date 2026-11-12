@@ -2,3 +2,5 @@ build/
 *Zone.Identifier
 output/
 __pycache__/
+.vscode/
+.claude/
