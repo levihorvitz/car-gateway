@@ -9,7 +9,7 @@ using TTimePoint = std::chrono::steady_clock::time_point;
 // A length of time, in nanoseconds.
 using TDuration = std::chrono::nanoseconds;
 
-// Time source interface; lets tests replace real time with a fake clock.
+// Time source interface; lets tests replace real time with a fake clock
 class IClock {
 public:
     virtual ~IClock() = default;
@@ -19,7 +19,5 @@ public:
     // Blocks until the given absolute time.
     virtual void sleepUntil(TTimePoint deadline) = 0;
 };
-
-// Production clock backed by std::chrono::steady_clock.
 
 }  // namespace gateway::core
