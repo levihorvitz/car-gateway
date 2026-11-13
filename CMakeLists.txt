@@ -28,6 +28,7 @@ if(GATEWAY_SANITIZER)
 endif()
 
 add_library(gateway_core
+    src/core/scheduler.cpp
     src/core/system_clock.cpp
 )
 target_include_directories(gateway_core PUBLIC include)
