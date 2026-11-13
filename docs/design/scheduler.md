@@ -40,6 +40,7 @@ In a test, a `CFakeClock` replaces the system clock, and a task can call `reques
 5. Increment `cycles` and call `liveness->onAlive()` if a listener was given (`SW_SCHED_011`).
 6. If a stop was requested, return (`SW_SCHED_010`).
 7. If the time is already past the next planned start, count an overrun (`SW_SCHED_005`) and move the plan forward to the first planned start that has not yet passed, without running the missed cycles (`SW_SCHED_006`).
+8. If a stop was requested while sleeping, return without running the cycle (`SW_SCHED_010`).
 
 ## Memory and threads
 

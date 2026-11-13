@@ -13,7 +13,9 @@ include(GoogleTest)
 
 add_executable(core_tests
     core/fake_clock_test.cpp
+    core/scheduler_test.cpp
     core/system_clock_test.cpp
+    support/allocation_counter.cpp
 )
 target_include_directories(core_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(core_tests PRIVATE gateway_core GTest::gtest_main)
