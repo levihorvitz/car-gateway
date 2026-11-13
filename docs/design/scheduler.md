@@ -7,19 +7,19 @@ Requirements: `docs/requirements/sw_scheduler.sdoc`. Architecture: [ADR 0001](..
 | File | Contents |
 | --- | --- |
 | `include/core/clock.hpp` | `IClock` (time source interface) |
-| `include/core/system_clock.hpp` | `SystemClock`, the real clock |
+| `include/core/system_clock.hpp` | `CSystemClock`, the real clock |
 | `include/core/task.hpp` | `ITask`, implemented by every manager |
 | `include/core/liveness.hpp` | `ILivenessListener`, implemented by the watchdog feeder |
-| `include/core/scheduler.hpp` | `CyclicScheduler` and `SchedulerStats` |
-| `tests/fakes/fake_clock.hpp` | `FakeClock`, for tests only |
+| `include/core/scheduler.hpp` | `CCyclicScheduler` and `SSchedulerStats` |
+| `tests/fakes/fake_clock.hpp` | `CFakeClock`, for tests only |
 
 All production code is in the namespace `gateway::core`; test helpers are in `gateway::test`.
 
 ## Usage
 
 ```cpp
-gateway::core::SystemClock clock;
-gateway::core::CyclicScheduler scheduler(clock, std::chrono::milliseconds(20), &watchdogFeeder);
+gateway::core::CSystemClock clock;
+gateway::core::CCyclicScheduler scheduler(clock, std::chrono::milliseconds(20), &watchdogFeeder);
 
 if (!scheduler.registerTask(engineManager)) { /* table full: fail at start-up */ }
 if (!scheduler.registerTask(brakesManager)) { /* ... */ }
@@ -27,7 +27,7 @@ if (!scheduler.registerTask(brakesManager)) { /* ... */ }
 scheduler.run();   // blocks until requestStop()
 ```
 
-In a test, a `FakeClock` replaces the system clock, and a task can call `requestStop()` after a set number of cycles, so `run()` returns without any test-only API.
+In a test, a `CFakeClock` replaces the system clock, and a task can call `requestStop()` after a set number of cycles, so `run()` returns without any test-only API.
 
 ## One cycle
 
@@ -58,7 +58,7 @@ In a test, a `FakeClock` replaces the system clock, and a task can call `request
 | `SW_SCHED_004` No drift | `run()` absolute planning |
 | `SW_SCHED_005` Overrun detection | `run()` step 7, `stats().overruns` |
 | `SW_SCHED_006` Behaviour after an overrun | `run()` step 7 |
-| `SW_SCHED_007` Timing metrics | `SchedulerStats`, `stats()` |
+| `SW_SCHED_007` Timing metrics | `SSchedulerStats`, `stats()` |
 | `SW_SCHED_008` Task registration | `registerTask()`, `kMaxTasks` |
 | `SW_SCHED_009` No dynamic allocation | `std::array` task table |
 | `SW_SCHED_010` Stopping | `requestStop()`, `run()` step 6 |

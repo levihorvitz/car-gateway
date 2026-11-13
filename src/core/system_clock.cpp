@@ -4,11 +4,11 @@
 
 namespace gateway::core {
 
-TimePoint SystemClock::now() const {
+TTimePoint CSystemClock::now() const {
     return std::chrono::steady_clock::now();
 }
 
-void SystemClock::sleepUntil(TimePoint deadline) {
+void CSystemClock::sleepUntil(TTimePoint deadline) {
     std::this_thread::sleep_until(deadline);
 }
 

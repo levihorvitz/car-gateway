@@ -4,20 +4,20 @@
 
 namespace gateway::test {
 
-class FakeClock final : public core::IClock {
+class CFakeClock final : public core::IClock {
 public:
-    [[nodiscard]] core::TimePoint now() const override { return now_; }
+    [[nodiscard]] core::TTimePoint now() const override { return now_; }
 
-    void sleepUntil(core::TimePoint deadline) override {
+    void sleepUntil(core::TTimePoint deadline) override {
         if (deadline > now_) {
             now_ = deadline;
         }
     }
 
-    void advance(core::Duration d) { now_ += d; }
+    void advance(core::TDuration d) { now_ += d; }
 
 private:
-    core::TimePoint now_{};
+    core::TTimePoint now_{};
 };
 
 }  // namespace gateway::test
