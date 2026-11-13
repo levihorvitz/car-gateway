@@ -22,7 +22,7 @@ struct SSchedulerStats {
 // Runs registered tasks in order, once per fixed period, on a single thread.
 class CCyclicScheduler {
 public:
-    
+
     static constexpr std::size_t kMaxTasks = 16; // Maximum number of tasks; the task table has a fixed size (no dynamic allocation).
 
     // clock: time source; period: cycle length; liveness: optional, notified after each cycle.
@@ -35,13 +35,13 @@ public:
     CCyclicScheduler& operator=(CCyclicScheduler&&) = delete;
     ~CCyclicScheduler() = default;
 
-    
+
     [[nodiscard]] bool registerTask(ITask& task); // Adds a task to the end of the run order; returns false if it cannot be added.
-    
+
     void run(); // Runs the cycle loop; blocks until requestStop() is called.
-    
+
     void requestStop() noexcept; // Asks run() to return after the current cycle; safe to call from any thread.
-  
+
     [[nodiscard]] SSchedulerStats stats() const noexcept;   // Returns a copy of the metrics; call from the scheduler thread or after run() returns.
 
 private:
