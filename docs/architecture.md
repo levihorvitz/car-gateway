@@ -120,3 +120,4 @@ These decisions are still open; each gets an ADR when it is made:
 - How the scheduler's liveness signal reaches the watchdog.
 - Format of the stored diagnostic trouble codes on disk.
 - Initialization of managers: constructor or init(), and where power-on BIT runs.
+- Fault timing: measure elapsed time with the clock, not by counting cycles.
