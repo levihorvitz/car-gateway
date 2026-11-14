@@ -1,6 +1,6 @@
 # 0002. Managers share one base class (Template Method)
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-11-11
 
 ## Context

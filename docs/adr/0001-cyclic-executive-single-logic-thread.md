@@ -1,6 +1,6 @@
 # 0001. Cyclic executive at 50 Hz with one logic thread
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-11-11
 
 ## Context

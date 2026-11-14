@@ -47,6 +47,8 @@ In a test, a `CFakeClock` replaces the system clock, and a task can call `reques
 - Tasks are kept as pointers in a `std::array` of `kMaxTasks` (16); nothing is allocated after `run()` starts (`SW_SCHED_008`, `SW_SCHED_009`, ADR 0005).
 - The scheduler does not own its tasks or its clock; their owners must outlive it.
 - `requestStop()` sets a `std::atomic<bool>`, so it is safe from any thread.
+- `registerTask()` and `run()` must be called from the same thread.
+- The scheduler is single-use: after `run()` returns it accepts no more tasks and is not run again.
 - `stats()` reads plain fields written by the scheduler thread; call it from that thread (for example from the dashboard manager's `step()`) or after `run()` has returned.
 
 ## Requirement coverage
