@@ -119,3 +119,4 @@ These decisions are still open; each gets an ADR when it is made:
 - Use of C++ exceptions.
 - How the scheduler's liveness signal reaches the watchdog.
 - Format of the stored diagnostic trouble codes on disk.
+- Initialization of managers: constructor or init(), and where power-on BIT runs.

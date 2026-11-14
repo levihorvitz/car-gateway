@@ -12,12 +12,12 @@ Each file in this folder records one significant design decision: the context, t
 
 | ADR | Decision | Status |
 | --- | --- | --- |
-| [0001](0001-cyclic-executive-single-logic-thread.md) | Cyclic executive at 50 Hz with one logic thread | Proposed |
-| [0002](0002-template-method-managers.md) | Managers share one base class (Template Method) | Proposed |
-| [0003](0003-shared-buffer-status-and-events.md) | Shared buffer with status and event entries | Proposed |
-| [0004](0004-e2e-protection.md) | End-to-end protection on every message | Proposed |
-| [0005](0005-no-dynamic-allocation-after-init.md) | No dynamic memory allocation after initialisation | Proposed |
-| [0006](0006-cpp17.md) | C++17 | Proposed |
+| [0001](0001-cyclic-executive-single-logic-thread.md) | Cyclic executive at 50 Hz with one logic thread | Accepted |
+| [0002](0002-template-method-managers.md) | Managers share one base class (Template Method) | Accepted |
+| [0003](0003-shared-buffer-status-and-events.md) | Shared buffer with status and event entries | Accepted |
+| [0004](0004-e2e-protection.md) | End-to-end protection on every message | Accepted |
+| [0005](0005-no-dynamic-allocation-after-init.md) | No dynamic memory allocation after initialisation | Accepted |
+| [0006](0006-cpp17.md) | C++17 | Accepted |
 
 ## Template
 

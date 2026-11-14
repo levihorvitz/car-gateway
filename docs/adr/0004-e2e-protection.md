@@ -1,6 +1,6 @@
 # 0004. End-to-end protection on every message
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-11-11
 
 ## Context

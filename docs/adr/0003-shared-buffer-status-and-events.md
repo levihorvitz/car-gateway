@@ -1,6 +1,6 @@
 # 0003. Shared buffer with status and event entries
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-11-11
 
 ## Context
