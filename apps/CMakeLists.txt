@@ -1,0 +1,2 @@
+add_executable(scheduler_demo scheduler_demo/main.cpp)
+target_link_libraries(scheduler_demo PRIVATE gateway_core)

@@ -34,6 +34,8 @@ add_library(gateway_core
 target_include_directories(gateway_core PUBLIC include)
 target_link_libraries(gateway_core PUBLIC gateway_options)
 
+add_subdirectory(apps)
+
 include(CTest)
 if(BUILD_TESTING)
     add_subdirectory(tests)
