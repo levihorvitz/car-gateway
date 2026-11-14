@@ -1,0 +1,24 @@
+name: ICD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  icd:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install cantools
+        run: pip install cantools
+
+      # Fails if the file does not load, if signals overlap,
+      # or if a signal does not fit in its message.
+      - name: Check the communication matrix
+        run: python -m cantools dump icd/car_gateway.dbc
