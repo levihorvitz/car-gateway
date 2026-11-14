@@ -1,6 +1,6 @@
 # 0007. E2E profile: 4-bit alive counter and CRC-8 SAE J1850
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Date:** 2026-11-14
 
 ## Context
