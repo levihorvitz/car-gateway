@@ -20,6 +20,8 @@ Each file in this folder records one significant design decision: the context, t
 | [0006](0006-cpp17.md) | C++17 | Accepted |
 | [0007](0007-e2e-profile.md) | E2E profile: 4-bit alive counter and CRC-8 SAE J1850 | Accepted |
 | [0008](0008-cycle-period.md) | Cycle period of 20 ms | Accepted |
+| [0009](0009-manager-initialization.md) | Manager initialization with init(), power-on BIT inside the cycle | Accepted |
+| [0010](0010-fault-timing.md) | Fault timing measured in elapsed clock time | Accepted |
 
 ## Template
 
