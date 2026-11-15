@@ -54,7 +54,7 @@ STATUS: Draft
 TAGS: scheduler
 TITLE: Cycle period
 STATEMENT: The scheduler shall start a new cycle every 20 ms.
-RATIONALE: Reactions within 40 ms need at most two cycles, and fault confirmation within 60 ms needs three.
+RATIONALE: Reactions within 40 ms need at most two cycles, and fault confirmation within 60 ms needs three. See ADR 0008.
 VERIFICATION: Test
 RELATIONS:
 - TYPE: Parent
