@@ -80,5 +80,5 @@ tests/           Unit tests, fakes and test support
 ## Team
 
 - **Levi Hurvitz** — design and implementation
-- **Reut** — code review and development
-- **Sapir** — documentation review
+- **Reut Sofer** — code review and development
+- **Sapir Solomon** — documentation review
