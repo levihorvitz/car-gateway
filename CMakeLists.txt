@@ -34,6 +34,15 @@ add_library(gateway_core
 target_include_directories(gateway_core PUBLIC include)
 target_link_libraries(gateway_core PUBLIC gateway_options)
 
+add_library(gateway_comm
+    src/comm/crc8.cpp
+    src/comm/e2e.cpp
+    src/comm/e2e_receiver.cpp
+    src/comm/e2e_sender.cpp
+)
+target_include_directories(gateway_comm PUBLIC include)
+target_link_libraries(gateway_comm PUBLIC gateway_options)
+
 add_subdirectory(apps)
 
 include(CTest)

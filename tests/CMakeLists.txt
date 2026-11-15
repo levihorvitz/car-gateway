@@ -21,3 +21,13 @@ target_include_directories(core_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(core_tests PRIVATE gateway_core GTest::gtest_main)
 
 gtest_discover_tests(core_tests)
+
+add_executable(comm_tests
+    comm/crc8_test.cpp
+    comm/e2e_receiver_test.cpp
+    comm/e2e_sender_test.cpp
+    support/allocation_counter.cpp
+)
+target_include_directories(comm_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(comm_tests PRIVATE gateway_comm GTest::gtest_main)
+gtest_discover_tests(comm_tests)

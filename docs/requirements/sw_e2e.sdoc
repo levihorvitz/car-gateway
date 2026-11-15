@@ -1,0 +1,166 @@
+[DOCUMENT]
+TITLE: Software Requirements - E2E Protection
+
+[GRAMMAR]
+ELEMENTS:
+- TAG: TEXT
+  FIELDS:
+  - TITLE: UID
+    TYPE: String
+    REQUIRED: False
+  - TITLE: STATEMENT
+    TYPE: String
+    REQUIRED: True
+- TAG: REQUIREMENT
+  FIELDS:
+  - TITLE: UID
+    TYPE: String
+    REQUIRED: True
+  - TITLE: STATUS
+    TYPE: SingleChoice(Draft, Reviewed, Approved)
+    REQUIRED: True
+  - TITLE: TAGS
+    TYPE: Tag
+    REQUIRED: False
+  - TITLE: TITLE
+    TYPE: String
+    REQUIRED: True
+  - TITLE: STATEMENT
+    TYPE: String
+    REQUIRED: True
+  - TITLE: RATIONALE
+    TYPE: String
+    REQUIRED: False
+  - TITLE: VERIFICATION
+    TYPE: MultipleChoice(Test, Demonstration, Inspection, Analysis)
+    REQUIRED: True
+  RELATIONS:
+  - TYPE: Parent
+  - TYPE: File
+
+[TEXT]
+STATEMENT: >>>
+This document states what the E2E protection must do: the CRC and alive counter that every message carries (ADR 0004, ADR 0007), how a sender writes them, and how a receiver checks them.
+Each requirement links to the system requirements it serves; requirements without a parent are derived from a design decision.
+<<<
+
+[REQUIREMENT]
+UID: SW_E2E_001
+STATUS: Draft
+TAGS: e2e
+TITLE: CRC algorithm
+STATEMENT: The E2E CRC shall be CRC-8 SAE J1850: polynomial 0x1D, initial value 0xFF, final XOR 0xFF.
+RATIONALE: The profile chosen in ADR 0007; known check values make it verifiable.
+VERIFICATION: Test
+RELATIONS:
+- TYPE: Parent
+  VALUE: SYS_MON_003
+
+[REQUIREMENT]
+UID: SW_E2E_002
+STATUS: Draft
+TAGS: e2e
+TITLE: CRC coverage
+STATEMENT: The E2E CRC shall be computed over the message ID as two bytes, low byte first, followed by payload bytes 0 to 6, and stored in payload byte 7.
+RATIONALE: Including the ID detects a message that arrives with the wrong ID (ADR 0007).
+VERIFICATION: Test
+RELATIONS:
+- TYPE: Parent
+  VALUE: SYS_MON_003
+
+[REQUIREMENT]
+UID: SW_E2E_003
+STATUS: Draft
+TAGS: e2e
+TITLE: Alive counter
+STATEMENT: The sender shall write a 4-bit alive counter in the low nibble of payload byte 6, starting at 0, incrementing by 1 on every send and wrapping from 15 to 0.
+RATIONALE: Lets the receiver detect lost and repeated messages (ADR 0007).
+VERIFICATION: Test
+RELATIONS:
+- TYPE: Parent
+  VALUE: SYS_MON_003
+
+[REQUIREMENT]
+UID: SW_E2E_004
+STATUS: Draft
+TAGS: e2e
+TITLE: Protected bytes
+STATEMENT: The sender shall leave payload bytes 0 to 5 and the high nibble of byte 6 unchanged.
+RATIONALE: Signals live in those bits; protection must not overwrite them.
+VERIFICATION: Test
+RELATIONS:
+- TYPE: Parent
+  VALUE: SYS_MON_003
+
+[REQUIREMENT]
+UID: SW_E2E_005
+STATUS: Draft
+TAGS: e2e
+TITLE: Corrupted message
+STATEMENT: The receiver shall report a message whose CRC does not match as corrupted.
+RATIONALE: Corrupted content must never be used.
+VERIFICATION: Test
+RELATIONS:
+- TYPE: Parent
+  VALUE: SYS_MON_003
+- TYPE: Parent
+  VALUE: SYS_MON_004
+
+[REQUIREMENT]
+UID: SW_E2E_006
+STATUS: Draft
+TAGS: e2e
+TITLE: Repeated message
+STATEMENT: The receiver shall report a message whose counter equals the last accepted counter as repeated.
+RATIONALE: A stale message repeated by a faulty sender must not be used as new data.
+VERIFICATION: Test
+RELATIONS:
+- TYPE: Parent
+  VALUE: SYS_MON_003
+- TYPE: Parent
+  VALUE: SYS_MON_004
+
+[REQUIREMENT]
+UID: SW_E2E_007
+STATUS: Draft
+TAGS: e2e
+TITLE: Lost messages
+STATEMENT: The receiver shall accept a message whose counter is ahead of the last accepted counter by more than 1, modulo 16, and report the number of lost messages.
+RATIONALE: The content is valid; the gap is reported so that lost messages are visible.
+VERIFICATION: Test
+RELATIONS:
+- TYPE: Parent
+  VALUE: SYS_MON_003
+
+[REQUIREMENT]
+UID: SW_E2E_008
+STATUS: Draft
+TAGS: e2e
+TITLE: First message
+STATEMENT: The receiver shall accept the first message with a valid CRC whatever its counter.
+RATIONALE: There is no previous counter to compare with after start-up.
+VERIFICATION: Test
+RELATIONS:
+- TYPE: Parent
+  VALUE: SYS_MON_003
+
+[REQUIREMENT]
+UID: SW_E2E_009
+STATUS: Draft
+TAGS: e2e
+TITLE: State after rejection
+STATEMENT: The receiver shall keep its last accepted counter unchanged when it reports a message as corrupted or repeated.
+RATIONALE: A rejected message must not move the reference used to check the next one.
+VERIFICATION: Test
+RELATIONS:
+- TYPE: Parent
+  VALUE: SYS_MON_004
+
+[REQUIREMENT]
+UID: SW_E2E_010
+STATUS: Draft
+TAGS: e2e, derived
+TITLE: No dynamic allocation
+STATEMENT: The E2E functions shall not allocate memory dynamically.
+RATIONALE: Derived from ADR 0005: they run inside the cycle.
+VERIFICATION: Test, Inspection
