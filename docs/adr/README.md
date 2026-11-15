@@ -19,7 +19,7 @@ Each file in this folder records one significant design decision: the context, t
 | [0005](0005-no-dynamic-allocation-after-init.md) | No dynamic memory allocation after initialisation | Accepted |
 | [0006](0006-cpp17.md) | C++17 | Accepted |
 | [0007](0007-e2e-profile.md) | E2E profile: 4-bit alive counter and CRC-8 SAE J1850 | Accepted |
-| [0008](0008-cycle-period.md) | Cycle period of 20 ms | Proposed |
+| [0008](0008-cycle-period.md) | Cycle period of 20 ms | Accepted |
 
 ## Template
 
