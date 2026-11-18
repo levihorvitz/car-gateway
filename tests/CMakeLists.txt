@@ -18,7 +18,7 @@ add_executable(core_tests
     support/allocation_counter.cpp
 )
 target_include_directories(core_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(core_tests PRIVATE gateway_core GTest::gtest_main)
+target_link_libraries(core_tests PRIVATE cvc_core GTest::gtest_main)
 
 gtest_discover_tests(core_tests)
 
@@ -29,5 +29,5 @@ add_executable(comm_tests
     support/allocation_counter.cpp
 )
 target_include_directories(comm_tests PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(comm_tests PRIVATE gateway_comm GTest::gtest_main)
+target_link_libraries(comm_tests PRIVATE cvc_comm GTest::gtest_main)
 gtest_discover_tests(comm_tests)

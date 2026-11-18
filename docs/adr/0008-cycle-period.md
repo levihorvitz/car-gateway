@@ -9,7 +9,7 @@ The cycle period of the scheduler (ADR 0001) is the base of every timing figure 
 
 ## Decision
 
-The cycle period is **20 ms (50 Hz)**. It is defined once, as `kCyclePeriod` in `include/app/system_config.hpp` (`SW_SCHED_001`), and every message in `icd/car_gateway.dbc` is sent at the same period.
+The cycle period is **20 ms (50 Hz)**. It is defined once, as `kCyclePeriod` in `include/app/system_config.hpp` (`SW_SCHED_001`), and every message in `icd/central_vehicle_computer.dbc` is sent at the same period.
 
 ## Analysis
 

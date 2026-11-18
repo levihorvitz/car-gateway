@@ -58,10 +58,10 @@ void operator delete[](void* memory, std::size_t, std::align_val_t) noexcept { s
 void operator delete(void* memory, std::align_val_t, const std::nothrow_t&) noexcept { std::free(memory); }
 void operator delete[](void* memory, std::align_val_t, const std::nothrow_t&) noexcept { std::free(memory); }
 
-namespace gateway::test {
+namespace cvc::test {
 
 std::size_t allocationCount() noexcept {
     return gAllocations.load(std::memory_order_relaxed);
 }
 
-}  // namespace gateway::test
+}  // namespace cvc::test

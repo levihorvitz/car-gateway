@@ -11,13 +11,13 @@
 #include "support/allocation_counter.hpp"
 
 using namespace std::chrono_literals;
-using gateway::core::CCyclicScheduler;
-using gateway::core::TDuration;
-using gateway::core::IClock;
-using gateway::core::ILivenessListener;
-using gateway::core::ITask;
-using gateway::core::TTimePoint;
-using gateway::test::CFakeClock;
+using cvc::core::CCyclicScheduler;
+using cvc::core::TDuration;
+using cvc::core::IClock;
+using cvc::core::ILivenessListener;
+using cvc::core::ITask;
+using cvc::core::TTimePoint;
+using cvc::test::CFakeClock;
 
 namespace {
 
@@ -181,10 +181,10 @@ public:
     void step() override {
         ++current_;
         if (current_ == 1) {
-            first_ = gateway::test::allocationCount();
+            first_ = cvc::test::allocationCount();
         }
         if (current_ == cycles_) {
-            last_ = gateway::test::allocationCount();
+            last_ = cvc::test::allocationCount();
             scheduler_.requestStop();
         }
     }

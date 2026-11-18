@@ -1,6 +1,6 @@
 #include "comm/e2e_receiver.hpp"
 
-namespace gateway::comm
+namespace cvc::comm
 {
 
     CE2eReceiver::CE2eReceiver(TMessageId id) noexcept : id_(id) {}
@@ -37,4 +37,4 @@ namespace gateway::comm
         return lostMessages_;
     }
 
-} // namespace gateway::comm
+} // namespace cvc::comm

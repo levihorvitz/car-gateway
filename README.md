@@ -1,10 +1,10 @@
-# Car Central Computer
+# Central Vehicle Computer
 
-[![Build and test](https://github.com/levihorvitz/car-gateway/actions/workflows/build.yml/badge.svg)](https://github.com/levihorvitz/car-gateway/actions/workflows/build.yml)
-[![Requirements](https://github.com/levihorvitz/car-gateway/actions/workflows/requirements.yml/badge.svg)](https://github.com/levihorvitz/car-gateway/actions/workflows/requirements.yml)
-[![ICD](https://github.com/levihorvitz/car-gateway/actions/workflows/icd.yml/badge.svg)](https://github.com/levihorvitz/car-gateway/actions/workflows/icd.yml)
+[![Build and test](https://github.com/levihorvitz/central-vehicle-computer/actions/workflows/build.yml/badge.svg)](https://github.com/levihorvitz/central-vehicle-computer/actions/workflows/build.yml)
+[![Requirements](https://github.com/levihorvitz/central-vehicle-computer/actions/workflows/requirements.yml/badge.svg)](https://github.com/levihorvitz/central-vehicle-computer/actions/workflows/requirements.yml)
+[![ICD](https://github.com/levihorvitz/central-vehicle-computer/actions/workflows/icd.yml/badge.svg)](https://github.com/levihorvitz/central-vehicle-computer/actions/workflows/icd.yml)
 
-A central computer (gateway) for a car, in C++17 on Linux. It runs a 50 Hz cyclic scheduler, monitors the vehicle units over a CAN bus, detects and handles faults, decides one vehicle state, and shows the car's state on a dashboard.
+A Central Vehicle Computer (CVC) for a car, in C++17 on Linux. It runs a 50 Hz cyclic scheduler, monitors the vehicle units over a CAN bus, detects and handles faults, decides one vehicle state, and shows the car's state on a dashboard.
 
 During development every vehicle unit is a simulated process on a virtual CAN bus. In the final phase the same code runs on a Raspberry Pi in a 2015 Peugeot 208, reading the real car through its OBD-II port, read-only.
 
@@ -45,7 +45,7 @@ Later phases: full simulation with built-in test and fault injection (`v0.2.0`),
 | --- | --- |
 | System and software requirements with parent links and a traceability matrix | [docs/requirements](docs/requirements) (StrictDoc) |
 | Architecture decision records | [docs/adr](docs/adr) |
-| Interface control document under change requests and semantic versioning | [icd/car_gateway.dbc](icd/car_gateway.dbc), [docs/icd](docs/icd) |
+| Interface control document under change requests and semantic versioning | [icd/central_vehicle_computer.dbc](icd/central_vehicle_computer.dbc), [docs/icd](docs/icd) |
 | Detailed design before implementation | [docs/design](docs/design) |
 | Test-driven development; injected clock for deterministic timing tests | [tests](tests) |
 | No dynamic allocation after initialisation; strict warnings as errors | [docs/coding-guidelines.md](docs/coding-guidelines.md) |
@@ -62,7 +62,7 @@ ctest --test-dir build --output-on-failure
 
 ./build/apps/scheduler_demo 5          # the scheduler on the real clock, with live timing stats
 strictdoc server .                     # browse the requirements at http://127.0.0.1:5111
-cantools dump icd/car_gateway.dbc      # the communication matrix, with bit layouts
+cantools dump icd/central_vehicle_computer.dbc      # the communication matrix, with bit layouts
 ```
 
 ## Repository layout

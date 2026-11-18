@@ -70,7 +70,7 @@ BO_ 528 VEHICLE_STATE: 8 CENTRAL
 
 
 CM_ "Car central computer - communication matrix, phase 1 (engine, brakes, lighting).";
-CM_ BU_ CENTRAL "Central computer (gateway).";
+CM_ BU_ CENTRAL "Central Vehicle Computer (CVC).";
 CM_ BU_ DASHBOARD "Dashboard unit: listens to all status messages.";
 CM_ BO_ 256 "Engine status, sent every 20 ms.";
 CM_ BO_ 272 "Brakes and ABS status, sent every 20 ms.";

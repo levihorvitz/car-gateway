@@ -13,13 +13,13 @@ Requirements: `docs/requirements/sw_scheduler.sdoc`. Architecture: [ADR 0001](..
 | `include/core/scheduler.hpp` | `CCyclicScheduler` and `SSchedulerStats` |
 | `tests/fakes/fake_clock.hpp` | `CFakeClock`, for tests only |
 
-All production code is in the namespace `gateway::core`; test helpers are in `gateway::test`.
+All production code is in the namespace `cvc::core`; test helpers are in `cvc::test`.
 
 ## Usage
 
 ```cpp
-gateway::core::CSystemClock clock;
-gateway::core::CCyclicScheduler scheduler(clock, std::chrono::milliseconds(20), &watchdogFeeder);
+cvc::core::CSystemClock clock;
+cvc::core::CCyclicScheduler scheduler(clock, std::chrono::milliseconds(20), &watchdogFeeder);
 
 if (!scheduler.registerTask(engineManager)) { /* table full: fail at start-up */ }
 if (!scheduler.registerTask(brakesManager)) { /* ... */ }

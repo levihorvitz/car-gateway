@@ -1,7 +1,7 @@
 #include "comm/e2e.hpp"
 #include "comm/crc8.hpp"
 
-namespace gateway::comm
+namespace cvc::comm
 {
 
     std::uint8_t e2eCrc(TMessageId id, const TPayload &payload) noexcept
@@ -14,4 +14,4 @@ namespace gateway::comm
         return crc8SaeJ1850(data, 9);
     }
 
-} // namespace gateway::comm
+} // namespace cvc::comm

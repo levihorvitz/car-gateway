@@ -5,7 +5,7 @@
 #include "fakes/fake_clock.hpp"
 
 using namespace std::chrono_literals;
-using gateway::test::CFakeClock;
+using cvc::test::CFakeClock;
 
 TEST(CFakeClock, StartsAtZero) {
     CFakeClock clock;

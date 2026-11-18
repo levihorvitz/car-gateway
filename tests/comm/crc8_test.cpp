@@ -6,9 +6,9 @@
 #include "comm/crc8.hpp"
 #include "comm/e2e.hpp"
 
-using gateway::comm::crc8SaeJ1850;
-using gateway::comm::e2eCrc;
-using gateway::comm::TPayload;
+using cvc::comm::crc8SaeJ1850;
+using cvc::comm::e2eCrc;
+using cvc::comm::TPayload;
 
 namespace {
 

@@ -8,13 +8,13 @@
 #include "comm/e2e_receiver.hpp"
 #include "support/allocation_counter.hpp"
 
-using gateway::comm::CE2eReceiver;
-using gateway::comm::crc8SaeJ1850;
-using gateway::comm::EE2eResult;
-using gateway::comm::kCounterByte;
-using gateway::comm::kCrcByte;
-using gateway::comm::TMessageId;
-using gateway::comm::TPayload;
+using cvc::comm::CE2eReceiver;
+using cvc::comm::crc8SaeJ1850;
+using cvc::comm::EE2eResult;
+using cvc::comm::kCounterByte;
+using cvc::comm::kCrcByte;
+using cvc::comm::TMessageId;
+using cvc::comm::TPayload;
 
 namespace {
 
@@ -132,9 +132,9 @@ TEST(E2eReceiverTest, CorruptedFirstMessageIsNotAccepted) {
 // SW_E2E_010
 TEST(E2eReceiverTest, DoesNotAllocate) {
     CE2eReceiver receiver(kId);
-    const auto before = gateway::test::allocationCount();
+    const auto before = cvc::test::allocationCount();
     for (std::uint8_t counter = 0; counter < 64; ++counter) {
         static_cast<void>(receiver.check(frame(static_cast<std::uint8_t>(counter % 16))));
     }
-    EXPECT_EQ(gateway::test::allocationCount() - before, 0u);
+    EXPECT_EQ(cvc::test::allocationCount() - before, 0u);
 }

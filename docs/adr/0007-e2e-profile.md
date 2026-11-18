@@ -9,7 +9,7 @@ ADR 0004 decided that every message carries an alive counter and a CRC. This ADR
 
 ## Decision
 
-Every message in `icd/car_gateway.dbc` reserves:
+Every message in `icd/central_vehicle_computer.dbc` reserves:
 
 - **Alive counter:** 4 bits, start bit 48 (byte 6, low nibble). The sender increments it by 1 on every send and wraps from 15 to 0.
 - **CRC:** 8 bits, start bit 56 (byte 7). CRC-8 SAE J1850: polynomial `0x1D`, initial value `0xFF`, final XOR `0xFF`. It is computed over the 11-bit message ID as two bytes (low byte first), followed by payload bytes 0 to 6.
