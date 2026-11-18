@@ -5,7 +5,7 @@
 #include "core/system_clock.hpp"
 
 using namespace std::chrono_literals;
-using gateway::core::CSystemClock;
+using cvc::core::CSystemClock;
 
 TEST(CSystemClock, NeverGoesBackwards) {
     CSystemClock clock;

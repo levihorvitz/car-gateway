@@ -1,6 +1,6 @@
 #pragma once
 
-namespace gateway::core {
+namespace cvc::core {
 
 // A unit of work run by the scheduler; implemented by every manager.
 class ITask {
@@ -11,4 +11,4 @@ public:
     virtual void step() = 0;
 };
 
-}  // namespace gateway::core
+}  // namespace cvc::core

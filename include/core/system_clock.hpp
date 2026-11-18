@@ -2,7 +2,7 @@
 
 #include "core/clock.hpp"
 
-namespace gateway::core {
+namespace cvc::core {
 
 class CSystemClock final : public IClock {
 public:
@@ -10,4 +10,4 @@ public:
     void sleepUntil(TTimePoint deadline) override;
 };
 
-}  // namespace gateway::core
+}  // namespace cvc::core

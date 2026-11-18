@@ -11,7 +11,7 @@ label() {
 label "requirements"    "5319e7" "System or software requirements"
 label "design"          "1d76db" "Architecture, detailed design or ADR"
 label "change-request"  "d93f0b" "Proposed change to a baselined artifact (ICD, requirements)"
-label "icd"             "fbca04" "Communication matrix and interfaces between components (icd/car_gateway.dbc)"
+label "icd"             "fbca04" "Communication matrix and interfaces between components (icd/central_vehicle_computer.dbc)"
 label "ci"              "0e8a16" "Continuous integration and checks"
 label "tools"           "c5def5" "Developer tools and code generators"
 label "area:core"       "bfdadc" "Scheduler, clock and shared infrastructure"

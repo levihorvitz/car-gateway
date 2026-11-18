@@ -4,7 +4,7 @@
 #include <cstddef>
 #include <cstdint>
 
-namespace gateway::comm {
+namespace cvc::comm {
 
 using TPayload = std::array<std::uint8_t, 8>;
 using TMessageId = std::uint16_t;
@@ -23,4 +23,4 @@ enum class EE2eResult {
 
 [[nodiscard]] std::uint8_t e2eCrc(TMessageId id, const TPayload& payload) noexcept;
 
-}  // namespace gateway::comm
+}  // namespace cvc::comm

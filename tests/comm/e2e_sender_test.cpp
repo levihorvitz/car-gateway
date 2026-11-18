@@ -6,13 +6,13 @@
 #include "comm/e2e_sender.hpp"
 #include "support/allocation_counter.hpp"
 
-using gateway::comm::CE2eSender;
-using gateway::comm::e2eCrc;
-using gateway::comm::kCounterByte;
-using gateway::comm::kCounterMask;
-using gateway::comm::kCrcByte;
-using gateway::comm::TMessageId;
-using gateway::comm::TPayload;
+using cvc::comm::CE2eSender;
+using cvc::comm::e2eCrc;
+using cvc::comm::kCounterByte;
+using cvc::comm::kCounterMask;
+using cvc::comm::kCrcByte;
+using cvc::comm::TMessageId;
+using cvc::comm::TPayload;
 
 namespace {
 
@@ -72,9 +72,9 @@ TEST(E2eSenderTest, LeavesSignalBitsUnchanged) {
 TEST(E2eSenderTest, DoesNotAllocate) {
     CE2eSender sender(kId);
     TPayload payload{};
-    const auto before = gateway::test::allocationCount();
+    const auto before = cvc::test::allocationCount();
     for (int send = 0; send < 100; ++send) {
         sender.protect(payload);
     }
-    EXPECT_EQ(gateway::test::allocationCount() - before, 0u);
+    EXPECT_EQ(cvc::test::allocationCount() - before, 0u);
 }

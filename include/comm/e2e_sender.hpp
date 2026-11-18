@@ -4,7 +4,7 @@
 
 #include "comm/e2e.hpp"
 
-namespace gateway::comm {
+namespace cvc::comm {
 
 class CE2eSender {
 public:
@@ -17,4 +17,4 @@ private:
     std::uint8_t counter_ = 0;
 };
 
-}  // namespace gateway::comm
+}  // namespace cvc::comm

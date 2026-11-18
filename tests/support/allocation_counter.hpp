@@ -2,8 +2,8 @@
 
 #include <cstddef>
 
-namespace gateway::test {
+namespace cvc::test {
 
 std::size_t allocationCount() noexcept;
 
-}  // namespace gateway::test
+}  // namespace cvc::test

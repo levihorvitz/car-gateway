@@ -2,7 +2,7 @@
 
 #include <chrono>
 
-namespace gateway::core {
+namespace cvc::core {
 
 // A point in time on the monotonic clock (not affected by wall-clock changes).
 using TTimePoint = std::chrono::steady_clock::time_point;
@@ -22,4 +22,4 @@ public:
 
 // Production clock backed by std::chrono::steady_clock.
 
-}  // namespace gateway::core
+}  // namespace cvc::core

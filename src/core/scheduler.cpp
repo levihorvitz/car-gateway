@@ -1,6 +1,6 @@
 #include "core/scheduler.hpp"
 
-namespace gateway::core {
+namespace cvc::core {
 
 CCyclicScheduler::CCyclicScheduler(IClock& clock, TDuration period, ILivenessListener* liveness)
     : clock_(clock), period_(period), liveness_(liveness) {}
@@ -77,4 +77,4 @@ SSchedulerStats CCyclicScheduler::stats() const noexcept {
     return stats_;
 }
 
-}  // namespace gateway::core
+}  // namespace cvc::core

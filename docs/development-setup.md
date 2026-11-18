@@ -6,7 +6,7 @@ Everything needed to build, test and contribute to this repository, from a Windo
 
 **Everything happens inside Linux. Windows is only the window.**
 
-- The repository lives in your Linux home folder (`~/car-gateway`). Never edit its files through Windows File Explorer.
+- The repository lives in your Linux home folder (`~/central-vehicle-computer`). Never edit its files through Windows File Explorer.
 - Run every command in the Ubuntu terminal. If your prompt starts with `PS`, you are in Windows PowerShell: switch to Ubuntu.
 - VS Code must be connected to WSL: the bottom-left corner shows **WSL: Ubuntu**.
 
@@ -70,8 +70,8 @@ git config --global fetch.prune true
 ## 5. Clone the repository
 
 ```bash
-gh repo clone levihorvitz/car-gateway ~/car-gateway
-cd ~/car-gateway
+gh repo clone levihorvitz/central-vehicle-computer ~/central-vehicle-computer
+cd ~/central-vehicle-computer
 ```
 
 ## 6. Python tools
@@ -82,7 +82,7 @@ pipx install cantools
 ```
 
 - `strictdoc` manages the requirements (`docs/requirements/`).
-- `cantools` checks and displays the communication matrix (`icd/car_gateway.dbc`).
+- `cantools` checks and displays the communication matrix (`icd/central_vehicle_computer.dbc`).
 
 ## 7. Build and test
 
@@ -111,7 +111,7 @@ Check it with two terminals: run `candump vcan0` in the first and `cansend vcan0
 ## 9. VS Code
 
 1. Install VS Code on **Windows**, and its **WSL** extension (Microsoft).
-2. From the Ubuntu terminal: `cd ~/car-gateway && code .`
+2. From the Ubuntu terminal: `cd ~/central-vehicle-computer && code .`
 3. Check the bottom-left corner shows **WSL: Ubuntu**.
 4. In the Extensions view, install these **in WSL** (button **Install in WSL: Ubuntu**):
    - **C/C++** (Microsoft)
@@ -128,7 +128,7 @@ If you use Claude Code, read `CLAUDE.md` first: it never commits, pushes or open
 | --- | --- |
 | Build and run all tests | `cmake --build build -j && ctest --test-dir build --output-on-failure` |
 | Browse the requirements | `strictdoc server .`, then open http://127.0.0.1:5111 |
-| Show the communication matrix | `cantools dump icd/car_gateway.dbc` |
+| Show the communication matrix | `cantools dump icd/central_vehicle_computer.dbc` |
 | Run the scheduler demo | `./build/apps/scheduler_demo 5` |
 | See local and GitHub branches | `git branch -vv` |
 

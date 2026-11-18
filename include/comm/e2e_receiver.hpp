@@ -4,7 +4,7 @@
 
 #include "comm/e2e.hpp"
 
-namespace gateway::comm {
+namespace cvc::comm {
 
 class CE2eReceiver {
 public:
@@ -20,4 +20,4 @@ private:
     std::uint8_t lostMessages_ = 0;
 };
 
-}  // namespace gateway::comm
+}  // namespace cvc::comm

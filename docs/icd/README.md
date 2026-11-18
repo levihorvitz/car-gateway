@@ -1,6 +1,6 @@
 # Interface Control Document (ICD)
 
-`icd/car_gateway.dbc` is the communication matrix of the system: every message on the CAN bus, who sends it, who receives it, how often, and the layout of every signal. It is the contract between the central computer, the vehicle units, the simulated car and the dashboard.
+`icd/central_vehicle_computer.dbc` is the communication matrix of the system: every message on the CAN bus, who sends it, who receives it, how often, and the layout of every signal. It is the contract between the central computer, the vehicle units, the simulated car and the dashboard.
 
 ## Rules
 
@@ -31,7 +31,7 @@ A major change breaks every receiver of the affected message, so its change requ
 
 ```bash
 pipx install cantools
-cantools dump icd/car_gateway.dbc
+cantools dump icd/central_vehicle_computer.dbc
 ```
 
 `cantools dump` prints every message with a diagram of its bit layout. The DBC file is plain text and can be edited directly, or in a graphical editor such as SavvyCAN or the Kvaser Database Editor.

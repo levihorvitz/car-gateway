@@ -2,7 +2,7 @@
 
 #include "core/clock.hpp"
 
-namespace gateway::test {
+namespace cvc::test {
 
 class CFakeClock final : public core::IClock {
 public:
@@ -20,4 +20,4 @@ private:
     core::TTimePoint now_{};
 };
 
-}  // namespace gateway::test
+}  // namespace cvc::test

@@ -21,4 +21,4 @@ jobs:
       # Fails if the file does not load, if signals overlap,
       # or if a signal does not fit in its message.
       - name: Check the communication matrix
-        run: python -m cantools dump icd/car_gateway.dbc
+        run: python -m cantools dump icd/central_vehicle_computer.dbc

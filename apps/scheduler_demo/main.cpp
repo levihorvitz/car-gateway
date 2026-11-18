@@ -9,15 +9,15 @@
 #include "core/system_clock.hpp"
 
 using namespace std::chrono_literals;
-using gateway::core::CCyclicScheduler;
-using gateway::core::CSystemClock;
-using gateway::core::IClock;
-using gateway::core::ITask;
-using gateway::core::TDuration;
+using cvc::core::CCyclicScheduler;
+using cvc::core::CSystemClock;
+using cvc::core::IClock;
+using cvc::core::ITask;
+using cvc::core::TDuration;
 
 namespace {
 
-constexpr std::uint64_t kCyclesPerSecond = std::chrono::seconds(1) / gateway::app::kCyclePeriod;
+constexpr std::uint64_t kCyclesPerSecond = std::chrono::seconds(1) / cvc::app::kCyclePeriod;
 constexpr long kDefaultSeconds = 10;
 constexpr TDuration kSimulatedWork = 2ms;
 
@@ -99,7 +99,7 @@ int main(int argc, char** argv) {
     const long seconds = parseSeconds(argc, argv);
 
     CSystemClock clock;
-    CCyclicScheduler scheduler(clock, gateway::app::kCyclePeriod);
+    CCyclicScheduler scheduler(clock, cvc::app::kCyclePeriod);
     CSimulatedWork work(clock, kSimulatedWork);
     CStatsPrinter printer(scheduler);
     CStopAfter stop(scheduler, static_cast<std::uint64_t>(seconds) * kCyclesPerSecond);

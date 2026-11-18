@@ -9,7 +9,7 @@
 #include "core/liveness.hpp"
 #include "core/task.hpp"
 
-namespace gateway::core {
+namespace cvc::core {
 
 // Timing metrics collected by the scheduler while it runs.
 struct SSchedulerStats {
@@ -58,4 +58,4 @@ private:
     SSchedulerStats stats_{};  // Metrics updated by run().
 };
 
-}  // namespace gateway::core
+}  // namespace cvc::core

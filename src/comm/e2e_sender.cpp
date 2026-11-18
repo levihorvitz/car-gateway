@@ -1,6 +1,6 @@
 #include "comm/e2e_sender.hpp"
 
-namespace gateway::comm
+namespace cvc::comm
 {
 
     CE2eSender::CE2eSender(TMessageId id) noexcept : id_(id) {}
@@ -13,4 +13,4 @@ namespace gateway::comm
         counter_ = static_cast<uint8_t>((counter_ + 1) % kCounterModulo);
     }
 
-} // namespace gateway::comm
+} // namespace cvc::comm

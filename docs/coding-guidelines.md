@@ -20,7 +20,7 @@ Every type name starts with a letter that says what kind of type it is.
 | Variables and parameters | camelCase | `taskCount`, `deadline` |
 | Private member variables | camelCase with a trailing `_` | `taskCount_`, `clock_` |
 | Constants and enum values | `k` + PascalCase | `kMaxTasks`, `kLimited` |
-| Namespaces | lower case | `gateway::core` |
+| Namespaces | lower case | `cvc::core` |
 | Files | snake_case | `system_clock.hpp`, `scheduler_test.cpp` |
 
 ## Files and folders
@@ -30,8 +30,8 @@ Every type name starts with a letter that says what kind of type it is.
 - Each interface has its own header, separate from every implementation.
 - One class per header and source pair.
 - Every header starts with `#pragma once` and includes everything it uses.
-- The namespace matches the folder: `include/core/` is `gateway::core`.
-- Test-only code lives under `tests/`, in the namespace `gateway::test`.
+- The namespace matches the folder: `include/core/` is `cvc::core`.
+- Test-only code lives under `tests/`, in the namespace `cvc::test`.
 - Never write `using namespace` in a header.
 
 ## Language rules

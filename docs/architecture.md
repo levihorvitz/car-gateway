@@ -4,7 +4,7 @@ This document describes how the car central computer is built: its components, h
 
 ## System overview
 
-The system is a central computer (gateway) for a car. It monitors seven vehicle units over a CAN bus, detects and handles faults, decides one vehicle state, and shows the car's state on a dashboard.
+The system is a Central Vehicle Computer (CVC) for a car. It monitors seven vehicle units over a CAN bus, detects and handles faults, decides one vehicle state, and shows the car's state on a dashboard.
 
 During development, every vehicle unit is a separate simulated process on a virtual CAN bus (`vcan0`). In the car, the same code runs on a Raspberry Pi and reads the real vehicle through its OBD-II port (`can0`), read-only.
 
